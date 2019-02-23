@@ -2,5 +2,169 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "weather": {
+      "root": "projects/weather",
+      "sourceRoot": "projects/weather/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/weather/tsconfig.lib.json",
+            "project": "projects/weather/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/weather/src/test.ts",
+            "tsConfig": "projects/weather/tsconfig.spec.json",
+            "karmaConfig": "projects/weather/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/weather/tsconfig.lib.json",
+              "projects/weather/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "weathertest": {
+      "root": "projects/weathertest/",
+      "sourceRoot": "projects/weathertest/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/weathertest",
+            "index": "projects/weathertest/src/index.html",
+            "main": "projects/weathertest/src/main.ts",
+            "polyfills": "projects/weathertest/src/polyfills.ts",
+            "tsConfig": "projects/weathertest/tsconfig.app.json",
+            "assets": [
+              "projects/weathertest/src/favicon.ico",
+              "projects/weathertest/src/assets"
+            ],
+            "styles": [
+              "projects/weathertest/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/weathertest/src/environments/environment.ts",
+                  "with": "projects/weathertest/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "weathertest:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "weathertest:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "weathertest:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/weathertest/src/test.ts",
+            "polyfills": "projects/weathertest/src/polyfills.ts",
+            "tsConfig": "projects/weathertest/tsconfig.spec.json",
+            "karmaConfig": "projects/weathertest/karma.conf.js",
+            "styles": [
+              "projects/weathertest/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/weathertest/src/favicon.ico",
+              "projects/weathertest/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/weathertest/tsconfig.app.json",
+              "projects/weathertest/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "weathertest-e2e": {
+      "root": "projects/weathertest-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/weathertest-e2e/protractor.conf.js",
+            "devServerTarget": "weathertest:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "weathertest:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/weathertest-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "weather"
 }
